@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add to Cart</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f6f6f6;
+      padding: 20px;
+    }
+
+    .container {
+      display: flex;
+      gap: 40px;
+    }
+
+    .products, .cart {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      flex: 1;
+    }
+
+    .product {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+      padding: 10px 0;
+    }
+
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    .cart-items {
+      list-style: none;
+      padding: 0;
+    }
+
+    .cart-items li {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .total {
+      font-weight: bold;
+      text-align: right;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Add to Cart</h1>
+
+  <div class="container">
+    <!-- Product List -->
+    <div class="products">
+      <h2>Products</h2>
+      <div class="product">
+        <span>Product 1</span>
+        <span>₱50</span>
+        <button onclick="addToCart('Product 1', 50)">Add to Cart</button>
+      </div>
+      <div class="product">
+        <span>Product 2</span>
+        <span>₱35</span>
+        <button onclick="addToCart('Product 2', 35)">Add to Cart</button>
+      </div>
+      <div class="product">
+        <span>Product 3</span>
+        <span>₱70</span>
+        <button onclick="addToCart('Product 3', 70)">Add to Cart</button>
+      </div>
+      <div class="product">
+        <span>Product 4</span>
+        <span>₱120</span>
+        <button onclick="addToCart('Product 4', 120)">Add to Cart</button>
+      </div>
+    </div>
+
+    <!-- Cart Section -->
+    <div class="cart">
+      <h2>Your Cart</h2>
+      <ul class="cart-items" id="cartItems"></ul>
+      <p class="total">Total: ₱<span id="total">0</span></p>
+    </div>
+  </div>
+
+  <script>
+    const cart = [];
+    const cartItems = document.getElementById('cartItems');
+    const total = document.getElementById('total');
+
+    function addToCart(name, price) {
+      cart.push({ name, price });
+      renderCart();
+    }
+
+    function renderCart() {
+      cartItems.innerHTML = '';
+      let sum = 0;
+      cart.forEach((item, index) => {
+        sum += item.price;
+        const li = document.createElement('li');
+        li.innerHTML = `${item.name} - ₱${item.price} 
+          <button onclick="removeItem(${index})">Remove</button>`;
+        cartItems.appendChild(li);
+      });
+      total.textContent = sum;
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      renderCart();
+    }
+  </script>
+</body>
+</html>
